@@ -32,12 +32,17 @@ public class Hooks {
     @After
     public void teardownScenario(Scenario scenario){
 
+        //scenario.isFailed() --> if scenario fails this method will return TRUE boolean value
 
 
-        byte [] screenshot = ((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
-        scenario.attach(screenshot, "image/png", scenario.getName());
+        if (scenario.isFailed()){
 
+            byte [] screenshot = ((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", scenario.getName());
 
+        }
+
+        
         Driver.closeDriver();
 
         //System.out.println("====Closing browser using cucumber @After");
@@ -53,7 +58,6 @@ public class Hooks {
     public void afterStep(){
         System.out.println("--------> applying tearDown using @AfterStep");
     }
-
 
 
 
